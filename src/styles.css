@@ -1,0 +1,167 @@
+.body {
+  margin: 0;
+  background-color: #fff;
+}
+
+#headerModal {
+  background-color: #e2e3e5;
+}
+
+#btnModal {
+  margin-top: 5px;
+  width: 35%;
+}
+
+#hideColumn {
+  column-count: 2;
+  /* Utilizamos 'column-count' en lugar de 'columnCount' */
+}
+
+#dropdown-li {
+  break-inside: avoid;
+  /* No es necesario el uso de comillas para 'avoid' */
+}
+
+#submitGroup {
+  display: flex;
+  justify-content: center;
+}
+
+.table {
+  overflow-x: auto;
+  max-width: 100%;
+  display: block;
+  white-space: nowrap;
+  align-items: center;
+}
+
+th, td {
+ width: 1%;
+
+}
+
+
+
+
+.form-check-input:checked {
+  background-color: #565e64;
+  border-color: #565e64;
+}
+
+
+.form-check-input:focus {
+  border-color: #565e64;
+  box-shadow: none;
+}
+
+
+.loader-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  /* Asegura que el .loader se posicione en relación con este contenedor */
+}
+
+.loader {
+  transform: rotateZ(45deg);
+  perspective: 1000px;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  color: #000000;
+  position: absolute;
+  /* Importante para la animación y el posicionamiento */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotateZ(45deg);
+  /* Ajustado para centrar correctamente */
+}
+
+.loader:before,
+.loader:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: inherit;
+  height: inherit;
+  border-radius: 50%;
+  animation: 1s spin linear infinite;
+}
+
+.loader:before {
+  transform: rotateX(70deg);
+}
+
+.loader:after {
+  color: #6a8caf;
+  transform: rotateY(70deg);
+  animation-delay: .4s;
+}
+
+@keyframes rotate {
+  0% {
+    transform: translate(-50%, -50%) rotateZ(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotateZ(360deg);
+  }
+}
+
+@keyframes rotateccw {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(-360deg);
+  }
+}
+
+@keyframes spin {
+
+  0%,
+  100% {
+    box-shadow: .2em 0px 0 0px currentcolor;
+  }
+
+  12% {
+    box-shadow: .2em .2em 0 0 currentcolor;
+  }
+
+  25% {
+    box-shadow: 0 .2em 0 0px currentcolor;
+  }
+
+  37% {
+    box-shadow: -.2em .2em 0 0 currentcolor;
+  }
+
+  50% {
+    box-shadow: -.2em 0 0 0 currentcolor;
+  }
+
+  62% {
+    box-shadow: -.2em -.2em 0 0 currentcolor;
+  }
+
+  75% {
+    box-shadow: 0px -.2em 0 0 currentcolor;
+  }
+
+  87% {
+    box-shadow: .2em -.2em 0 0 currentcolor;
+  }
+}
+
+.titlePage {
+  margin-bottom: -5px;
+}
+
+.main {
+  margin-left: 105px;
+}
