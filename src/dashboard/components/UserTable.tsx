@@ -32,7 +32,12 @@ export const UserTable = () => {
   );
 
   if (users.length === 0) {
-    return <p>No users to display.</p>;
+    return (
+      <div className="text-center mt-5 p-4 rounded" style={{ backgroundColor: '#fff3cd' }}>
+        <h4 className="text-dark">No visitors found</h4>
+        <p className="text-dark mb-0">Start by adding a new visitor using the + button below.</p>
+      </div>
+    );
   }
 
   const columns = Object.keys(users[0]).filter((key) => key !== "id");

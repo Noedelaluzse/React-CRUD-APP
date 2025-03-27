@@ -1,25 +1,27 @@
 import { useMemo } from "react";
 import "./LoginPage.css";
 import { useForm } from "../../hooks/useForm";
-import { startCreatingUserWithEmailPassword, startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth";
+import {
+  startCreatingUserWithEmailPassword,
+  startGoogleSignIn,
+  startLoginWithEmailPassword,
+} from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-
+import { FcGoogle } from "react-icons/fc";
 
 const formData = {
   email: "",
   password: "",
-}
+};
 
 const registerFormData = {
   registerEmail: "",
   registerPassword: "",
-  displayName: ""
-}
+  displayName: "",
+};
 
 export const LoginPage = () => {
-
-
-  const { status, errorMessage } = useAppSelector((state) => state.auth); 
+  const { status, errorMessage } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
@@ -30,14 +32,19 @@ export const LoginPage = () => {
   }>(formData);
 
   // Formulario de registro
-  const { registerEmail, registerPassword, displayName, onInputChange: handleInputChange } = useForm<{
+  const {
+    registerEmail,
+    registerPassword,
+    displayName,
+    onInputChange: handleInputChange,
+  } = useForm<{
     registerEmail: string;
     registerPassword: string;
-    displayName: string; 
+    displayName: string;
   }>(registerFormData);
 
   // Estado para el formulario de registro
-  const isAuthenticating = useMemo(() => status === 'checking', [status]);
+  const isAuthenticating = useMemo(() => status === "checking", [status]);
 
   // Funcion para el ingreso
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -52,39 +59,53 @@ export const LoginPage = () => {
 
     // Validar el formulario
 
-    dispatch(startCreatingUserWithEmailPassword({
-      email: registerEmail,
-      password: registerPassword,
-      displayName
-    }));
+    dispatch(
+      startCreatingUserWithEmailPassword({
+        email: registerEmail,
+        password: registerPassword,
+        displayName,
+      })
+    );
   };
 
   const onGoogleSignIn = () => {
     dispatch(startGoogleSignIn());
-  }
+  };
 
   return (
     <div className="container login-container animate__animated animate__fadeIn animate__faster">
       <div className="row">
         {/* Formulario de Ingreso */}
         <div className="col-md-6 login-form-1">
-          <h3>Ingreso</h3>
+          <h3>Sign In</h3>
           <form onSubmit={onSubmit}>
             <div className="form-group mb-2">
+            <label
+                  htmlFor="name"
+                  className="form-label fw-bolder"
+                >
+                  Email
+                </label>
               <input
                 type="text"
                 className="form-control"
-                placeholder="Correo"
+                placeholder="Email"
                 name="email"
                 value={email}
                 onChange={onInputChange}
               />
             </div>
             <div className="form-group mb-2">
+            <label
+                  htmlFor="name"
+                  className="form-label fw-bolder"
+                >
+                  Password
+                </label>
               <input
                 type="password"
                 className="form-control"
-                placeholder="Contraseña"
+                placeholder="Password"
                 name="password"
                 value={password}
                 onChange={onInputChange}
@@ -100,23 +121,27 @@ export const LoginPage = () => {
             </div>
           </form>
 
-                      {/* google */}
-                      <div className="d-grid mb-2 mt-3">
-              <input
-                disabled={isAuthenticating}
-                type="submit"
-                className="btnSubmit rounded"
-                value="Google"
-                onClick={onGoogleSignIn}
-              />
-            </div>
+          {/* google */}
+          <hr />
+          <div className="d-grid mb-2 mt-3">
+            <button
+              disabled={isAuthenticating}
+              type="button"
+              onClick={onGoogleSignIn}
+              className="btnSubmit rounded d-flex align-items-center justify-content-center gap-2"
+              style={{ backgroundColor: "#ffffff", color: "#000000" }}
+            >
+              <FcGoogle size={20} />
+              Sign in with Google
+            </button>
+          </div>
         </div>
 
         {/* Formulario para registrarse */}
         <div className="col-md-6 align-items-center consultation-form">
-          <h3 className="mb-0">Registrarse</h3>
+          <h3 className="mb-0">Register</h3>
           <p className="text-white text-center mb-0 mt-2">
-            Ingresa tu correo para registrarte.
+            Enter your email to register.
           </p>
 
           <form onSubmit={onRegisterSubmit}>
@@ -126,7 +151,7 @@ export const LoginPage = () => {
                   htmlFor="name"
                   className="form-label fw-bolder text-white"
                 >
-                  Nombre
+                  Name
                 </label>
                 <input
                   type="name"
@@ -134,7 +159,7 @@ export const LoginPage = () => {
                   id="displayName"
                   name="displayName"
                   required
-                  placeholder="Ingresa tu nombre"
+                  placeholder="Enter your name"
                   onChange={handleInputChange}
                   value={displayName}
                 />
@@ -145,7 +170,7 @@ export const LoginPage = () => {
                   htmlFor="email"
                   className="form-label fw-bolder text-white"
                 >
-                  Correo
+                  Email
                 </label>
                 <input
                   type="email"
@@ -153,7 +178,7 @@ export const LoginPage = () => {
                   id="registerEmail"
                   name="registerEmail"
                   required
-                  placeholder="Ingresa tu correo"
+                  placeholder="Enter your email"
                   onChange={handleInputChange}
                   value={registerEmail}
                 />
@@ -164,7 +189,7 @@ export const LoginPage = () => {
                   htmlFor="password"
                   className="form-label fw-bolder text-white"
                 >
-                  Contraseña
+                  Password
                 </label>
                 <input
                   type="password"
@@ -172,7 +197,7 @@ export const LoginPage = () => {
                   id="registerPassword"
                   name="registerPassword"
                   required
-                  placeholder="Ingresa una contraseña"
+                  placeholder="Enter a password"
                   onChange={handleInputChange}
                   value={registerPassword}
                 />
@@ -185,7 +210,7 @@ export const LoginPage = () => {
                 disabled={isAuthenticating}
                 type="submit"
                 className="btnSubmit rounded"
-                value="Registrarse"
+                value="Register"
               />
             </div>
           </form>
