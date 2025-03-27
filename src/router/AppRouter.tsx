@@ -1,15 +1,16 @@
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { LoginPage } from '../auth/pages/LoginPage';
 import { DashboardRoutes } from '../dashboard/routes/DashboardRoutes';
+import { CheckingAuth } from '../ui';
+import { useCheckAuth } from '../hooks/useCheckAuth';
 
 export const AppRouter = () => {
 
-  const status = 'not-authenticated'; // 'authenticated' | 'loading' | 'not-authenticated'
+  const { status } =  useCheckAuth();
 
-  if (status === 'loading') {
-    return <div>Loading...</div>
+  if (status === 'checking') {
+    return <CheckingAuth />
   }
-
 
   return (
     <Routes>

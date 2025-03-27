@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, updateProfile } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, updateProfile } from "firebase/auth";
 import { FirebaseAuth } from "./config";
 
 // Google Sign-In
@@ -103,3 +103,47 @@ export const registerUserWithEmailPassword = async ({
     return { ok: false, errorMessage: "Unknown error while registering user." };
   }
 };
+
+export const loginWithEmailPassword = async (email: string, password: string):  Promise<RegisterUserResult> => {
+
+  try {
+    const res = await signInWithEmailAndPassword(FirebaseAuth, email, password);
+    const user = res.user;
+    
+    // Validaciones agrupadas
+    if (!user) {
+      return { ok: false, errorMessage: "User does not exist." };
+    }
+    
+    const requiredFields = [
+      { value: user.displayName, name: "display name" },
+      { value: user.uid, name: "uid" },
+      { value: user.email, name: "email" },
+    ];
+    
+    for (const field of requiredFields) {
+      if (!field.value) {
+        return { ok: false, errorMessage: `User does not have a ${field.name}.` };
+      }
+    }
+    
+    return {
+      ok: true,
+      uuid: user.uid,
+      displayName: user.displayName!,
+      photoURL: user.photoURL,
+      email: user.email!,
+    };
+
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return { ok: false, errorMessage: error.message };
+    }
+
+    return { ok: false, errorMessage: "Unknown error while logging in." };
+  }
+};
+
+export const logoutFirebase = async() => {
+  return await FirebaseAuth.signOut();
+}

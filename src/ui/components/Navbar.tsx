@@ -1,14 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { startLogout } from '../../store/auth';
 
 
 export const Navbar = () => {
 
-    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { displayName } = useAppSelector((state) => state.auth); 
 
     const onLogout = () => {
-        navigate('/login', {
-            replace: true
-        });
+        dispatch(startLogout());
     }
 
     return (
@@ -24,7 +25,7 @@ export const Navbar = () => {
             <div className="navbar-collapse collapse w-100 order-3 dual-collapse2 d-flex justify-content-end">
                 <ul className="navbar-nav ml-auto">
                   <span className='nav-item nav-link text-primary'>
-                    Noe
+                    {displayName}
                   </span>
 
                   <button

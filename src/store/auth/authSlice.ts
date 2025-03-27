@@ -11,7 +11,7 @@ interface AuthState {
 
 // Estado inicial tipado
 const initialState: AuthState = {
-  status: 'not-authenticated',
+  status: 'checking',
   uuid: null,
   email: null,
   displayName: null,
@@ -46,7 +46,7 @@ export const authSlice = createSlice({
         state.email = null;
         state.displayName = null;
         state.photoURL = null;
-        state.errorMessage = action.payload?.errorMessage || null;
+        state.errorMessage = action?.payload?.errorMessage ?? null;
 
       },
       checkingCredentials: (state) => {

@@ -1,16 +1,17 @@
 import { useMemo } from "react";
 import "./LoginPage.css";
 import { useForm } from "../../hooks/useForm";
-import { checkingAuthentication, startCreatingUserWithEmailPassword, startGoogleSignIn } from "../../store/auth";
+import { startCreatingUserWithEmailPassword, startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 export const LoginPage = () => {
 
 
-  const { status } = useAppSelector((state) => state.auth);
+  const { status, errorMessage } = useAppSelector((state) => state.auth); 
 
   const dispatch = useAppDispatch();
 
+  // Formulario de ingreso
   const { email, password, onInputChange } = useForm<{
     email: string;
     password: string;
@@ -19,6 +20,7 @@ export const LoginPage = () => {
     password: "123456",
   });
 
+  // Formulario de registro
   const { registerEmail, registerPassword, displayName, onInputChange: handleInputChange } = useForm<{
     registerEmail: string;
     registerPassword: string;
@@ -29,26 +31,21 @@ export const LoginPage = () => {
     displayName: ""
   });
 
+  // Estado para el formulario de registro
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
 
+  // Funcion para el ingreso
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-  
-    console.log({
-      email,
-      password
-    });
 
-    dispatch(checkingAuthentication(email, password));
+    dispatch(startLoginWithEmailPassword(email, password));
   };
 
+  // Funcion para registrar el usuario
   const onRegisterSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Validar el formulario
-
-
-    // Aquí puedes agregar la lógica para registrar al usuario
 
     dispatch(startCreatingUserWithEmailPassword({
       email: registerEmail,
@@ -62,7 +59,7 @@ export const LoginPage = () => {
   }
 
   return (
-    <div className="container login-container">
+    <div className="container login-container animate__animated animate__fadeIn animate__faster">
       <div className="row">
         {/* Formulario de Ingreso */}
         <div className="col-md-6 login-form-1">
@@ -180,6 +177,7 @@ export const LoginPage = () => {
             {/* Botón pa registrarse */}
             <div className="d-grid mb-2">
               <input
+                disabled={isAuthenticating}
                 type="submit"
                 className="btnSubmit rounded"
                 value="Registrarse"
