@@ -21,7 +21,7 @@ const registerFormData = {
 };
 
 export const LoginPage = () => {
-  const { status, errorMessage } = useAppSelector((state) => state.auth);
+  const { status } = useAppSelector((state) => state.auth);
 
   const dispatch = useAppDispatch();
 
