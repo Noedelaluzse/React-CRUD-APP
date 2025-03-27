@@ -1,39 +1,28 @@
-import React from 'react'
-import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { startNewUser } from '../../store/users';
+import { useNavigate } from "react-router-dom";
+import { UserTable } from "../components/UserTable";
 
 export const DashboardPage = () => {
+  const navigate = useNavigate();
 
-  const { isSaving } = useAppSelector((state) => state.user); 
-  const dispatch = useAppDispatch();
-
-  const onClickNewUser = () => {
-
-    dispatch(startNewUser({
-      name: '',
-      email: '',
-      phone: '',
-      entryDate: new Date(),
-      exitDate: new Date(),
-      department: '',
-      staff: '',
-    }));
-
-  }
+  const handleCreateUser = () => {
+    navigate("/form?edit=0");
+  };
 
   return (
+    <>
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>Dashboard</h1>
+        <button
+          className="btn btn-primary"
+          onClick={handleCreateUser}
+        >
+          Crear usuario
+        </button>
+      </div>
 
-    // Crear un boton
-    // Crear un boton que al hacer click llame a la funcion startNewUser
-    <div>
-      <h1>DashboardPage</h1>
-      <button
-      disabled={isSaving}
-        className='btn btn-primary'
-        onClick={onClickNewUser}
-      >
-        Crear usuario
-      </button>
-    </div>
-  )
-}
+      <hr />
+
+      <UserTable />
+    </>
+  );
+};

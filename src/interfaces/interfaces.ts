@@ -3,8 +3,8 @@ export interface User {
   name: string;
   email: string;
   phone: string;
-  entryDate: Date;
-  exitDate: Date;
+  entryDate: string;
+  exitDate: string;
   department: string;
   staff: string;
 }

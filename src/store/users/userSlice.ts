@@ -29,6 +29,10 @@ export const userSlice = createSlice({
       state.messageSaved = '';
     },
     setUsers: (state, action: PayloadAction<User[]>) => {
+      state.users = action.payload;
+      state.isSaving = false;
+      state.messageSaved = '';
+      state.active = null;
     },
     setSaving: (state) => {
       state.isSaving = true;

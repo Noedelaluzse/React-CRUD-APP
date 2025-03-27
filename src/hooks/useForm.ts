@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, useEffect } from 'react';
 
 type FormValues = {
   [key: string]: any; 
@@ -6,6 +6,10 @@ type FormValues = {
 
 export const useForm = <T extends FormValues>(initialForm: T, ) => {
   const [formState, setFormState] = useState<T>(initialForm);
+
+  // useEffect(() => {
+  //   setFormState(initialForm);
+  // }, [formState])
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target;

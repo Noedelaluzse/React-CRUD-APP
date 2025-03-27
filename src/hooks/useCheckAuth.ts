@@ -3,6 +3,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useAppDispatch, useAppSelector } from "../store/hooks";
 import { FirebaseAuth } from "../firebase/config";
 import { login, logout } from "../store/auth";
+import { startLoadingUsers } from "../store/users";
 
 
 export const useCheckAuth = () => {
@@ -24,6 +25,8 @@ export const useCheckAuth = () => {
           displayName: userDisplayName,
           photoURL: userPhotoURL
         }));
+
+        dispatch(startLoadingUsers());
   
       })
     }, []);

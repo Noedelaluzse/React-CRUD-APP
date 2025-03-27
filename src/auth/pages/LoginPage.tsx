@@ -4,6 +4,18 @@ import { useForm } from "../../hooks/useForm";
 import { startCreatingUserWithEmailPassword, startGoogleSignIn, startLoginWithEmailPassword } from "../../store/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
+
+const formData = {
+  email: "",
+  password: "",
+}
+
+const registerFormData = {
+  registerEmail: "",
+  registerPassword: "",
+  displayName: ""
+}
+
 export const LoginPage = () => {
 
 
@@ -15,21 +27,14 @@ export const LoginPage = () => {
   const { email, password, onInputChange } = useForm<{
     email: string;
     password: string;
-  }>({
-    email: "noedelaluz06@gmail.com",
-    password: "123456",
-  });
+  }>(formData);
 
   // Formulario de registro
   const { registerEmail, registerPassword, displayName, onInputChange: handleInputChange } = useForm<{
     registerEmail: string;
     registerPassword: string;
     displayName: string; 
-  }>({
-    registerEmail: "",
-    registerPassword: "",
-    displayName: ""
-  });
+  }>(registerFormData);
 
   // Estado para el formulario de registro
   const isAuthenticating = useMemo(() => status === 'checking', [status]);
