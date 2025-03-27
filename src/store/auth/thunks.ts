@@ -1,5 +1,6 @@
 import { loginWithEmailPassword, logoutFirebase, registerUserWithEmailPassword, signInWithGoogle } from "../../firebase/providers";
 import { AppDispatch } from "../store"; // Ajusta la ruta si es necesario
+import { clearUsersLogout } from "../users";
 import { checkingCredentials, login, logout } from "./authSlice";
 
 interface RegisterUserPayload {
@@ -8,7 +9,7 @@ interface RegisterUserPayload {
   displayName: string;
 }
 
-export const checkingAuthentication = (email: string, password: string) => {
+export const checkingAuthentication = () => {
   return async (dispatch: AppDispatch) => {
     dispatch(checkingCredentials());
   };
@@ -77,6 +78,7 @@ export const startLogout = () => {
   return async (dispatch: AppDispatch) => {
 
     await logoutFirebase();
+    dispatch(clearUsersLogout());
     dispatch(logout({}));
 
   };

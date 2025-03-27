@@ -36,9 +36,23 @@ export const userSlice = createSlice({
     },
     setSaving: (state) => {
       state.isSaving = true;
+      state.messageSaved = '';
+      state.active = null;
     },
     updateUser: (state, action: PayloadAction<User>) => {
-
+      const userIndex = state.users.findIndex(user => user.id === action.payload.id);
+      if (userIndex !== -1) {
+        state.users[userIndex] = { ...state.users[userIndex], ...action.payload };
+        state.isSaving = false;
+        state.messageSaved = `${action.payload.name} updated successfully`;
+        state.active = null;
+      }
+    },
+    clearUsersLogout: (state) => {
+      state.isSaving = false;
+      state.messageSaved = '';
+      state.users = [];
+      state.active = null;
     },
     deleteUserById: (state, action: PayloadAction<string>) => {
       state.users = state.users.filter(user => user.id !== action.payload);
@@ -46,4 +60,4 @@ export const userSlice = createSlice({
   }
 });
 
-export const { addNewUser, setActiveUser, setUsers, setSaving, updateUser, deleteUserById, savingNewUser } = userSlice.actions;
+export const { addNewUser, setActiveUser, setUsers, setSaving, updateUser, deleteUserById, savingNewUser,clearUsersLogout } = userSlice.actions;

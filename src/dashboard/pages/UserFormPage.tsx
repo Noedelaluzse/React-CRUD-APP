@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { User } from "../../interfaces/interfaces";
 import Swal from "sweetalert2";
 import { useForm } from "../../hooks";
-import { startNewUser } from "../../store/users";
+import { startNewUser, startUpdateNote } from "../../store/users";
 
 const formData = {
   name: "",
@@ -43,7 +43,7 @@ export const UserFormPage = () => {
     e.preventDefault();
 
     if (isEditing && userId) {
-      // dispatch(updateUser({ id: userId, ...payload }));
+      dispatch(startUpdateNote({ id: userId, ...formState }));
       Swal.fire("Actualizado", "Usuario actualizado correctamente", "success");
     } else {
       const newUser: User = {

@@ -2,7 +2,7 @@ import { collection, doc, setDoc } from "firebase/firestore/lite";
 import { User } from "../../interfaces/interfaces";
 import { AppDispatch, RootState } from "../store"; 
 import { FirestoreDB } from "../../firebase/config";
-import { addNewUser, savingNewUser, setActiveUser, setUsers } from "./userSlice";
+import { addNewUser, savingNewUser, setActiveUser, setSaving, setUsers, updateUser } from "./userSlice";
 import { loadUsers } from "../../helpers";
 
 export const startNewUser = (user: User) => {
@@ -56,4 +56,27 @@ export const startLoadingUsers = () => {
 
   }
 
+}
+
+export const startUpdateNote = (user: User) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    
+    dispatch(setSaving());
+
+    const { auth } = getState();
+    const uid = auth.uuid;
+
+    if (!uid) {
+      console.error("No UID found in auth state.");
+      return;
+    }
+
+    const userCollectionRef = collection(FirestoreDB, `${uid}`);
+    const userDocRef = doc(userCollectionRef, user.id);
+
+    await setDoc(userDocRef, user, { merge: true });
+    
+    dispatch(updateUser(user)); // Actualizar el usuario en el estado
+
+  }
 }
