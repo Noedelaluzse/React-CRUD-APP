@@ -2,7 +2,7 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import { setActiveUser } from '../../store/users';
+import { setActiveUser, startDeletingUser } from '../../store/users';
 import { User } from '../../interfaces/interfaces';
 
 export const UserTable = () => {
@@ -40,7 +40,7 @@ export const UserTable = () => {
       if (result.isConfirmed) {
         // TODO: dispatch(deleteUserById(userId));
         console.log('Eliminando usuario con ID:', userId);
-
+        dispatch(startDeletingUser(userId));
         Swal.fire({
           title: 'Eliminado',
           text: 'El usuario ha sido eliminado correctamente.',

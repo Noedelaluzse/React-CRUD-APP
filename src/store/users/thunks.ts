@@ -1,8 +1,8 @@
-import { collection, doc, setDoc } from "firebase/firestore/lite";
+import { collection, deleteDoc, doc, setDoc } from "firebase/firestore/lite";
 import { User } from "../../interfaces/interfaces";
 import { AppDispatch, RootState } from "../store"; 
 import { FirestoreDB } from "../../firebase/config";
-import { addNewUser, savingNewUser, setActiveUser, setSaving, setUsers, updateUser } from "./userSlice";
+import { addNewUser, deleteUserById, savingNewUser, setActiveUser, setSaving, setUsers, updateUser } from "./userSlice";
 import { loadUsers } from "../../helpers";
 
 export const startNewUser = (user: User) => {
@@ -77,6 +77,28 @@ export const startUpdateNote = (user: User) => {
     await setDoc(userDocRef, user, { merge: true });
     
     dispatch(updateUser(user)); // Actualizar el usuario en el estado
+
+  }
+}
+
+export const startDeletingUser = (userId: string) => {
+  return async (dispatch: AppDispatch, getState: () => RootState) => {
+    
+    const { auth } = getState();
+    const uid = auth.uuid;
+
+    if (!uid) {
+      console.error("No UID found in auth state.");
+      return;
+    }
+
+    const userCollectionRef = collection(FirestoreDB, `${uid}`);
+    const userDocRef = doc(userCollectionRef, userId);
+
+    await deleteDoc(userDocRef); // Eliminar el documento de Firestore
+
+    dispatch(deleteUserById(userId)); // Eliminar el usuario del estado
+
 
   }
 }
