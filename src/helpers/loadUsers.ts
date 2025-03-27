@@ -33,7 +33,5 @@ export const loadUsers = async (uid: string): Promise<User[]> => {
   
     users.push(user);
   });
-
-  console.log(users);
   return users;
 };

@@ -56,9 +56,7 @@ export const UserFormPage = () => {
         exitDate: exitDate,
       };
 
-      dispatch(
-        startNewUser(newUser)
-      );
+      dispatch(startNewUser(newUser));
 
       Swal.fire("Creado", "Usuario creado correctamente", "success");
     }
@@ -80,36 +78,125 @@ export const UserFormPage = () => {
     }
   }, [isEditing, active]);
 
-
   return (
     <div className="container mt-4">
-      <h3>{isEditing ? "Editar usuario" : "Nuevo usuario"}</h3>
+      <h3 className="text-center">{isEditing ? "Edit User" : "New User"}</h3>
 
-      <form onSubmit={handleSubmit}>
-        <div className="row">
-          {Object.entries(formState).map(([key, value]) => (
-            <div className="col-md-6 mb-3" key={key}>
-              <label className="form-label">
-                {key.charAt(0).toUpperCase() + key.slice(1)}
-              </label>
+      <div className="row mx-auto bg-white">
+        <form
+          className="col-6 mx-auto mt-5 p-4 border rounded shadow-sm"
+          onSubmit={handleSubmit}
+        >
+          <div className="row">
+            {/* Name */}
+            <div className="col-12 mb-3">
+              <label className="form-label">Name</label>
               <input
-                type={key.toLowerCase().includes("date") ? "date" : "text"}
+                type="text"
                 className="form-control"
-                name={key}
-                value={value as string}
+                name="name"
+                value={name}
+                onChange={onInputChange}
+                placeholder={!isEditing ? "Enter visitor's name" : ""}
+              />
+            </div>
+
+            {/* Email */}
+            <div className="col-12 mb-3">
+              <label className="form-label">Email</label>
+              <input
+                type="email"
+                className="form-control"
+                name="email"
+                value={email}
+                onChange={onInputChange}
+                placeholder={!isEditing ? "email@example.com" : ""}
+              />
+            </div>
+
+            {/* Phone */}
+            <div className="col-12 mb-3">
+              <label className="form-label">Phone</label>
+              <input
+                type="text"
+                className="form-control"
+                name="phone"
+                value={phone}
+                onChange={onInputChange}
+                placeholder={!isEditing ? "Enter visitor's phone number" : ""}
+              />
+            </div>
+
+            {/* Entry Date */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Entry Date</label>
+              <input
+                type="date"
+                className="form-control"
+                name="entryDate"
+                value={entryDate}
                 onChange={onInputChange}
               />
             </div>
-          ))}
-        </div>
 
-        <button 
-          disabled={isSaving}
-          type="submit" 
-          className="btn btn-primary">
-          {isEditing ? "Actualizar" : "Guardar"}
-        </button>
-      </form>
+            {/* Exit Date */}
+            <div className="col-md-6 mb-3">
+              <label className="form-label">Exit Date</label>
+              <input
+                type="date"
+                className="form-control"
+                name="exitDate"
+                value={exitDate}
+                onChange={onInputChange}
+              />
+            </div>
+
+            {/* Department */}
+            <div className="col-12 mb-3">
+              <label className="form-label">Department</label>
+              <input
+                type="text"
+                className="form-control"
+                name="department"
+                value={department}
+                onChange={onInputChange}
+                placeholder={!isEditing ? "Enter department" : ""}
+              />
+            </div>
+
+            {/* Staff */}
+            <div className="col-12 mb-3">
+              <label className="form-label">Staff</label>
+              <input
+                type="text"
+                className="form-control"
+                name="staff"
+                value={staff}
+                onChange={onInputChange}
+                placeholder={!isEditing ? "Enter name of person being visited" : ""}
+              />
+            </div>
+          </div>
+
+          {/* Botones */}
+          <div className="d-flex justify-content-end gap-2">
+            <button
+              type="button"
+              className="btn btn-outline-secondary"
+              onClick={() => navigate("/dashboard")}
+            >
+              Cancel
+            </button>
+            <button
+              disabled={isSaving}
+              type="submit"
+              className="btn btn-primary"
+            >
+              {isEditing ? "Update" : "Save"}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
