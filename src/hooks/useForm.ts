@@ -7,9 +7,6 @@ type FormValues = {
 export const useForm = <T extends FormValues>(initialForm: T, ) => {
   const [formState, setFormState] = useState<T>(initialForm);
 
-  // useEffect(() => {
-  //   setFormState(initialForm);
-  // }, [formState])
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = event.target;
@@ -23,10 +20,18 @@ export const useForm = <T extends FormValues>(initialForm: T, ) => {
     setFormState(initialForm);
   };
 
+  const updateForm = (updatedValues: Partial<T>) => {
+    setFormState((prev) => ({
+      ...prev,
+      ...updatedValues,
+    }));
+  };
+
   return {
     ...formState,
     formState,
     onInputChange,
     onResetForm,
+    updateForm
   };
 };

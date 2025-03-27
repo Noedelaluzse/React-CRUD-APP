@@ -1,10 +1,15 @@
-import { useAppSelector } from '../../store/hooks';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+import { setActiveUser } from '../../store/users';
+import { User } from '../../interfaces/interfaces';
 
 export const UserTable = () => {
+
   const { users } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
   const navigate = useNavigate();
 
   if (users.length === 0) {
@@ -14,8 +19,11 @@ export const UserTable = () => {
   // Obtener las claves del primer usuario (sin el id)
   const columns = Object.keys(users[0]).filter((key) => key !== 'id');
 
-  const handleEdit = (userId: string) => {
-    navigate(`/form?edit=1&id=${userId}`);
+  const handleEdit = (user: User) => {
+    
+    dispatch(setActiveUser(user));
+
+    navigate(`/form?edit=1&id=${user.id}`);
   };
 
   const handleDeleteClick = (userId: string) => {
@@ -66,7 +74,7 @@ export const UserTable = () => {
               <td>
                 <button
                   className="btn btn-sm btn-primary me-2"
-                  onClick={() => handleEdit(user.id!)}
+                  onClick={() => handleEdit(user)}
                 >
                   Editar
                 </button>

@@ -20,7 +20,7 @@ export const UserFormPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { users, isSaving } = useAppSelector((state) => state.user);
+  const { isSaving, active } = useAppSelector((state) => state.user);
 
   const queryParams = new URLSearchParams(location.search);
   const isEditing = queryParams.get("edit") === "1";
@@ -36,20 +36,8 @@ export const UserFormPage = () => {
     staff,
     formState,
     onInputChange,
+    updateForm,
   } = useForm<typeof formData>(formData);
-
-  // Cargar datos si es edición
-  useEffect(() => {
-    if (isEditing && userId) {
-      const userToEdit = users.find((u) => u.id === userId);
-      if (userToEdit) {
-        const { id, ...rest } = userToEdit;
-      } else {
-        Swal.fire("Error", "Usuario no encontrado", "error");
-        navigate("/");
-      }
-    }
-  }, [isEditing, userId, users, navigate]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,6 +66,19 @@ export const UserFormPage = () => {
     navigate("/dashboard");
   };
 
+  useEffect(() => {
+    if (isEditing && active) {
+      updateForm({
+        name: active.name,
+        email: active.email,
+        phone: active.phone,
+        entryDate: active.entryDate.slice(0, 10),
+        exitDate: active.exitDate.slice(0, 10),
+        department: active.department,
+        staff: active.staff,
+      });
+    }
+  }, [isEditing, active]);
 
 
   return (
