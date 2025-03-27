@@ -4,7 +4,7 @@ import { DashboardRoutes } from '../dashboard/routes/DashboardRoutes';
 
 export const AppRouter = () => {
 
-  const status = 'authenticated'; // 'authenticated' | 'loading' | 'not-authenticated'
+  const status = 'not-authenticated'; // 'authenticated' | 'loading' | 'not-authenticated'
 
   if (status === 'loading') {
     return <div>Loading...</div>
